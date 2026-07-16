@@ -248,6 +248,7 @@
     .process {
 
         flex-direction: column;
+        padding: 80px 5%;
 
     }
 
@@ -267,11 +268,53 @@
     }
 
 
-    .process-right {
+    .process-left p {
 
-        margin-top: 50px;
+        width: 100%;
 
     }
 
 
+    .process-right {
+
+        margin-top: 50px;
+        padding-bottom: 30px;
+
+    }
+
+    .line {
+      width: 100%;
+      left: 0;
+      right: auto;
+      top: 200px;
+    }
+
+    .process-card {
+      position: relative;
+      width: 100%;
+      margin-bottom: 30px;
+    }
+
+}
+
+@media(max-width:600px) {
+  .process {
+    padding: 60px 16px;
+  }
+
+  .process-title {
+    font-size: 32px;
+  }
+
+  .process-left p {
+    font-size: 14px;
+  }
+
+  .process-card {
+    padding: 18px;
+  }
+
+  .line {
+    display: none;
+  }
 }

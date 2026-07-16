@@ -181,4 +181,31 @@
 
     }
 
+    .skills-container{
+        gap:20px;
+    }
+
+    .skill-card{
+        padding:20px;
+    }
+
+    .skill-info{
+        flex-direction: column;
+        gap: 6px;
+    }
+
+}
+
+@media(max-width:520px){
+  .skills{
+    padding:50px 16px;
+  }
+
+  .skills-title{
+    font-size:28px;
+  }
+
+  .skill-card{
+    padding:18px;
+  }
 }

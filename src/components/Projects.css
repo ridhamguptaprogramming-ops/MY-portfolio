@@ -179,6 +179,14 @@
     font-size: 42px; 
   }
 
+  .projects-top p {
+    max-width: 100%;
+  }
+
+  .project-card {
+    padding: 30px;
+  }
+
   .project-heading {
     flex-direction: column;
     align-items: flex-start;
@@ -188,7 +196,38 @@
     font-size: 30px;
   }
 
+  .description {
+    margin-bottom: 24px;
+  }
+
   .buttons {
     flex-direction: column;
+  }
+}
+
+@media (max-width:600px) {
+  .projects {
+    padding: 60px 16px;
+  }
+
+  .projects-top h2 {
+    font-size: 32px;
+  }
+
+  .project-card {
+    padding: 24px;
+  }
+
+  .project-heading h1 {
+    font-size: 26px;
+  }
+
+  .tech-stack {
+    gap: 10px;
+  }
+
+  .buttons a {
+    width: 100%;
+    justify-content: center;
   }
 }
