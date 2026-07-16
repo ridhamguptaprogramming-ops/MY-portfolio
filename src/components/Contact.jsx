@@ -7,13 +7,6 @@ gsap.registerPlugin(ScrollTrigger)
 
 export default function Contact() {
   const sectionRef = useRef(null)
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    talent: '',
-    message: '',
-  })
-  const [status, setStatus] = useState('idle')
 
   useEffect(() => {
     gsap.fromTo(
@@ -30,40 +23,6 @@ export default function Contact() {
     )
   }, [])
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    setStatus('submitting')
-
-    try {
-      const form = new FormData(e.target)
-      form.append('_subject', 'New application submission')
-      form.append('_autoresponse', "Thanks for applying! We'll review your submission soon.")
-
-      const response = await fetch('https://formsubmit.co/ajax/ridham.gupta.programming@gmail.com', {
-        method: 'POST',
-        body: form,
-        headers: {
-          Accept: 'application/json',
-        },
-      })
-
-      const result = await response.json()
-      if (!response.ok || result.success === false) {
-        throw new Error(result.message || 'Submission failed')
-      }
-
-      setStatus('success')
-    } catch (error) {
-      console.error(error)
-      setStatus('error')
-    }
-  }
-
-  const handleChange = (e) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
-  }
-
   return (
     <section id="contact" className="contact" ref={sectionRef}>
       <div className="container contact__inner">
@@ -76,53 +35,26 @@ export default function Contact() {
           </p>
         </div>
 
-        <form className="contact__form contact__animate" onSubmit={handleSubmit}>
-          {status === 'success' ? (
-            <div className="contact__success">You're in the queue. We'll be in touch. 🎤</div>
-          ) : (
-            <>
-              <div className="contact__row">
-                <input
-                  type="text"
-                  name="name"
-                  placeholder="Your name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                />
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Email address"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <input
-                type="text"
-                name="talent"
-                placeholder="What's your talent?"
-                value={formData.talent}
-                onChange={handleChange}
-                required
-              />
-              <textarea
-                name="message"
-                rows="4"
-                placeholder="Tell us why you belong on that stage"
-                value={formData.message}
-                onChange={handleChange}
-                required
-              />
-              <button type="submit" className="btn btn-primary" disabled={status === 'submitting'}>
-                {status === 'submitting' ? 'Submitting…' : 'Submit Application →'}
-              </button>
-              {status === 'error' && (
-                <p className="contact__error">Submission failed. Please try again or refresh the page.</p>
-              )}
-            </>
-          )}
+        <form
+          className="contact__form contact__animate"
+          action="https://formsubmit.co/ridham.gupta.programming@gmail.com"
+          method="POST"
+        >
+          <input type="hidden" name="_subject" value="New application submission" />
+          <input type="hidden" name="_autoresponse" value="Thanks for applying! We'll review your submission soon." />
+
+          <div className="contact__row">
+            <input type="text" name="name" placeholder="Your name" required />
+            <input type="email" name="email" placeholder="Email address" required />
+          </div>
+          <input type="text" name="talent" placeholder="What's your talent?" required />
+          <textarea
+            name="message"
+            rows="4"
+            placeholder="Tell us why you belong on that stage"
+            required
+          />
+          <button type="submit" className="btn btn-primary">Submit Application →</button>
         </form>
       </div>
 
