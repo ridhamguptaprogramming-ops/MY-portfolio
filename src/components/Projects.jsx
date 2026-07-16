@@ -79,8 +79,8 @@ const projects = [
       "Cloudinary",
       "Tailwind CSS",
     ],
-    github: "#",
-    live: "#",
+    github: "https://github.com/ridhamguptaprogramming-ops/WhatsApp-2",
+    live: "https://whatsapp-4-nyet.onrender.com/",
   },
 ];
 
