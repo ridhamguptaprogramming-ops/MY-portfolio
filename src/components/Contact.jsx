@@ -35,19 +35,21 @@ export default function Contact() {
     setStatus('submitting')
 
     try {
-      const response = await fetch('https://formspree.io/f/mknvarzz', {
+      const form = new FormData(e.target)
+      form.append('_subject', 'New application submission')
+      form.append('_autoresponse', "Thanks for applying! We'll review your submission soon.")
+
+      const response = await fetch('https://formsubmit.co/ajax/ridham.gupta.programming@gmail.com', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          talent: formData.talent,
-          message: formData.message,
-        }),
+        body: form,
+        headers: {
+          Accept: 'application/json',
+        },
       })
 
-      if (!response.ok) {
-        throw new Error('Submission failed')
+      const result = await response.json()
+      if (!response.ok || result.success === false) {
+        throw new Error(result.message || 'Submission failed')
       }
 
       setStatus('success')
