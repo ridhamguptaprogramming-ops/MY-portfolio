@@ -7,7 +7,13 @@ gsap.registerPlugin(ScrollTrigger)
 
 export default function Contact() {
   const sectionRef = useRef(null)
-  const [submitted, setSubmitted] = useState(false)
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    talent: '',
+    message: '',
+  })
+  const [status, setStatus] = useState('idle')
 
   useEffect(() => {
     gsap.fromTo(
@@ -24,9 +30,36 @@ export default function Contact() {
     )
   }, [])
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    setSubmitted(true)
+    setStatus('submitting')
+
+    try {
+      const response = await fetch('https://formspree.io/f/mknvarzz', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          talent: formData.talent,
+          message: formData.message,
+        }),
+      })
+
+      if (!response.ok) {
+        throw new Error('Submission failed')
+      }
+
+      setStatus('success')
+    } catch (error) {
+      console.error(error)
+      setStatus('error')
+    }
+  }
+
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
   return (
@@ -42,17 +75,50 @@ export default function Contact() {
         </div>
 
         <form className="contact__form contact__animate" onSubmit={handleSubmit}>
-          {submitted ? (
+          {status === 'success' ? (
             <div className="contact__success">You're in the queue. We'll be in touch. 🎤</div>
           ) : (
             <>
               <div className="contact__row">
-                <input type="text" placeholder="Your name" required />
-                <input type="email" placeholder="Email address" required />
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Your name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                />
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Email address"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                />
               </div>
-              <input type="text" placeholder="What's your talent?" required />
-              <textarea rows="4" placeholder="Tell us why you belong on that stage" required />
-              <button type="submit" className="btn btn-primary">Submit Application →</button>
+              <input
+                type="text"
+                name="talent"
+                placeholder="What's your talent?"
+                value={formData.talent}
+                onChange={handleChange}
+                required
+              />
+              <textarea
+                name="message"
+                rows="4"
+                placeholder="Tell us why you belong on that stage"
+                value={formData.message}
+                onChange={handleChange}
+                required
+              />
+              <button type="submit" className="btn btn-primary" disabled={status === 'submitting'}>
+                {status === 'submitting' ? 'Submitting…' : 'Submit Application →'}
+              </button>
+              {status === 'error' && (
+                <p className="contact__error">Submission failed. Please try again or refresh the page.</p>
+              )}
             </>
           )}
         </form>
