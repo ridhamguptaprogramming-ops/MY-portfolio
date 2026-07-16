@@ -24,7 +24,7 @@ useEffect(() => {
   return (
     <nav className="navbar" ref={navRef}>
       <div className="logo">
-        Rishabh <span>Raj</span>
+        Ridham <span>Gupta</span>
       </div>
 
       <ul className="nav-links">
