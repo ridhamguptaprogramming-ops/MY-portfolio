@@ -1,9 +1,8 @@
+import { useState } from "react";
 import "./Projects.css";
 import {
   FaGithub,
   FaExternalLinkAlt,
-  FaLinkedin,
-  FaInstagram,
 } from "react-icons/fa";
 
 const projects = [
@@ -85,10 +84,30 @@ const projects = [
 ];
 
 export default function Projects() {
+  const [activeProject, setActiveProject] = useState(projects[0]);
+
   return (
     <section className="projects">
-
-     
+      <div className="projects-preview">
+        <div className="preview-card">
+          <h4>Preview</h4>
+          <h2>{activeProject.title}</h2>
+          <p>{activeProject.description}</p>
+          <div className="preview-tech">
+            {activeProject.tech.slice(0, 5).map((item) => (
+              <span key={item}>{item}</span>
+            ))}
+          </div>
+          <div className="preview-links">
+            <a href={activeProject.github} target="_blank" rel="noreferrer">
+              <FaGithub /> GitHub
+            </a>
+            <a href={activeProject.live} target="_blank" rel="noreferrer">
+              <FaExternalLinkAlt /> Live Demo
+            </a>
+          </div>
+        </div>
+      </div>
 
       <div className="projects-top">
 
@@ -112,7 +131,13 @@ export default function Projects() {
       <div className="project-list">
 
         {projects.map((project) => (
-          <div className="project-card" key={project.id}>
+          <div
+            className="project-card"
+            key={project.id}
+            onMouseEnter={() => setActiveProject(project)}
+            onFocus={() => setActiveProject(project)}
+            tabIndex={0}
+          >
 
             <span className="project-label">
               ★ Flagship Project
