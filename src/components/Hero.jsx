@@ -1,29 +1,13 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import "./Hero.css";
 
-import heroVideo from "../assets/Hero.mp4";
+import heroImg from "../assets/hero.png";
 import { FaGithub, FaInstagram, FaLinkedin } from "react-icons/fa";
 
 export default function Hero() {
-  const title = useRef(null);
-  const subtitle = useRef(null);
-  const buttons = useRef(null);
-  const playBtn = useRef(null);
-  const videoRef = useRef(null);
   const leftRef = useRef(null);
-
-  const [playing, setPlaying] = useState(false);
-  const hasAnimated = useRef(false);
-
-  // ENSURE VIDEO STARTS PAUSED
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    video.pause();
-    setPlaying(false);
-  }, []);
+  const imgRef = useRef(null);
 
   // GSAP ANIMATION
   useEffect(() => { 
@@ -51,7 +35,7 @@ export default function Hero() {
         scale: 0.5,
         ease: "power4.out",
       });
-      gsap.from(videoRef.current, {
+      gsap.from(imgRef.current, {
         scale: 1.2,
         opacity: 0,
         duration: 1.5,
@@ -62,19 +46,6 @@ export default function Hero() {
 
     return () => ctx.revert();
   }, []);
-  // PLAY / PAUSE TOGGLE
-  const toggleVideo = () => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    if (video.paused) {
-      video.play();
-      setPlaying(true);
-    } else {
-      video.pause();
-      setPlaying(false);
-    }
-  };
 
   return (
     <section className="hero">
@@ -95,29 +66,15 @@ export default function Hero() {
            <FaInstagram />
           </a>
         </div>
-         {/* <div>
-          <a href="https://www.instagram.com/i.ridhamgupta/">
-           <Fa />
-          </a>
-        </div>
- */}
-
-
       </div>
 
-      {/* BACKGROUND VIDEO */}
-      <div>
-
-      </div>
-      <video
-        ref={videoRef}
-        
-        loop
-        playsInline
+      {/* BACKGROUND IMAGE */}
+      <img
+        ref={imgRef}
+        src={heroImg}
+        alt="Hero background"
         className="hero-video"
-      >
-        <source src={heroVideo} type="video/mp4" />
-      </video>
+      />
 
       {/* HERO CONTENT */}
       <div className="hero-content">
@@ -148,13 +105,7 @@ export default function Hero() {
         </div>
 
         <div className="right">
-          <button
-            ref={playBtn}
-            className="playButton"
-            onClick={toggleVideo}
-          >
-            {playing ? "❚❚" : "▶"}
-          </button>
+          {/* Placeholder for potential future content */}
         </div>
 
       </div>
